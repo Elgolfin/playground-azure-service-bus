@@ -7,8 +7,22 @@ namespace playground_azure_service_bus
 {
     class Program
     {
+        private static TelemetryClient _logger;
+        
         static void Main(string[] args)
         {
+            InitializeLogger();
+
+            _logger.TrackTrace("Demo application starting up.");
+            _logger.TrackEvent("Logging an event.");
+            _logger.TrackException(new Exception("Demo exception."));
+            _logger.TrackTrace("Demo application exiting.");
+            _logger.Flush();
+
+            Console.WriteLine("Hello World!");
+        }
+
+        static void InitializeLogger () {
             // Adding JSON file into IConfiguration.
             IConfiguration config =  new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", true, true)
@@ -18,19 +32,7 @@ namespace playground_azure_service_bus
             string ikey = config["ApplicationInsights:InstrumentationKey"];
             
             TelemetryConfiguration.Active.InstrumentationKey = ikey;
-            TelemetryClient log = new TelemetryClient();
-            log.TrackTrace("Demo application starting up.");
-
-            for (int i = 0; i < 10; i++)
-            {
-                log.TrackEvent("Testing " + i);
-            }
-
-            log.TrackException(new Exception("Demo exception."));
-            log.TrackTrace("Demo application exiting.");
-            log.Flush();
-
-            Console.WriteLine("Hello World!");
+            _logger = new TelemetryClient();
         }
     }
 }
