@@ -2,15 +2,19 @@
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Azure.ServiceBus;
 
 namespace playground_azure_service_bus
 {
     class Program
     {
         private static TelemetryClient _logger;
-        
+        private static IConfiguration _config;
+
         static void Main(string[] args)
         {
+            LoadConfiguration();
+            
             InitializeLogger();
 
             _logger.TrackTrace("Demo application starting up.");
@@ -22,14 +26,16 @@ namespace playground_azure_service_bus
             Console.WriteLine("Hello World!");
         }
 
-        static void InitializeLogger () {
+        static void LoadConfiguration() {
             // Adding JSON file into IConfiguration.
-            IConfiguration config =  new ConfigurationBuilder()
+            _config =  new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", true, true)
                 .Build();
+        }
 
+        static void InitializeLogger () {
             // Read instrumentation key from IConfiguration.
-            string ikey = config["ApplicationInsights:InstrumentationKey"];
+            string ikey = _config["ApplicationInsights:InstrumentationKey"];
             
             TelemetryConfiguration.Active.InstrumentationKey = ikey;
             _logger = new TelemetryClient();
