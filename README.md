@@ -8,3 +8,4 @@
 - [System.ServiceProcess Namespace](https://docs.microsoft.com/en-us/dotnet/api/system.serviceprocess?view=netframework-4.7.2)
 - [Windows Service Console App](https://stackoverflow.com/questions/7764088/net-console-application-as-windows-service#7764451)
 - [Service Bus Explorer](https://github.com/paolosalvatori/ServiceBusExplorer)
+- [About deferring message](https://stackoverflow.com/questions/21536722/can-the-azure-service-bus-be-delayed-before-retrying-a-message#21539418)
